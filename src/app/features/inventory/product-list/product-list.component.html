@@ -1,0 +1,25 @@
+<div class="container">
+    <h2 class="text-black text-center my-4">Product List</h2>
+
+    <app-search-filter (search)="onSearch($event)"></app-search-filter>
+
+    <ul class="list-group mt-3" *ngIf="filteredProducts && filteredProducts.length; else noProducts">
+        <li *ngFor="let product of filteredProducts" class="list-group-item d-flex justify-content-between align-items-center">
+            <span class="fw-bold">{{ product.name }}</span>
+
+            <div>
+                <button class="btn btn-outline-info btn-sm me-2" (click)="viewProduct(product.id)">View</button>
+                <button class="btn btn-outline-warning btn-sm me-2" (click)="editProduct(product.id)">Edit</button>
+                <button class="btn btn-outline-danger btn-sm" (click)="deleteProduct(product.id)">Delete</button>
+            </div>
+        </li>
+    </ul>
+
+    <ng-template #noProducts>
+        <p class="text-muted text-center mt-4">No products available.</p>
+    </ng-template>
+
+    <div class="text-center mt-3">
+        <button class="btn btn-primary" routerLink="/inventory/add-product">Add Product</button>
+    </div>
+</div>

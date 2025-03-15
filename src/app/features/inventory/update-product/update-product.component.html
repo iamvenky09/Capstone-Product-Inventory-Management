@@ -1,0 +1,52 @@
+<div class="container mt-4">
+    <h2 class="text-center text-black mb-4">Update Product</h2>
+
+    <form [formGroup]="updateProductForm" (ngSubmit)="onUpdate()" class="card p-4 shadow">
+        <div class="mb-3">
+            <label class="form-label">Name:</label>
+            <input type="text" class="form-control" formControlName="name" placeholder="Enter product name" />
+            <div *ngIf="updateProductForm.get('name')?.invalid && updateProductForm.get('name')?.touched" class="text-danger">
+                <small *ngIf="updateProductForm.get('name')?.errors?.['required']">Product name is required.</small>
+                <small *ngIf="updateProductForm.get('name')?.errors?.['minlength']">Name must be at least 3 characters long.</small>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Description:</label>
+            <input type="text" class="form-control" formControlName="description" placeholder="Enter product description" />
+            <div *ngIf="updateProductForm.get('description')?.invalid && updateProductForm.get('description')?.touched" class="text-danger">
+                <small *ngIf="updateProductForm.get('description')?.errors?.['required']">Description is required.</small>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Manufacturer:</label>
+            <input type="text" class="form-control" formControlName="manufacturer" placeholder="Enter manufacturer name" />
+            <div *ngIf="updateProductForm.get('manufacturer')?.invalid && updateProductForm.get('manufacturer')?.touched" class="text-danger">
+                <small *ngIf="updateProductForm.get('manufacturer')?.errors?.['required']">Manufacturer is required.</small>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Price:</label>
+            <input type="number" class="form-control" formControlName="price" placeholder="Enter price" />
+            <div *ngIf="updateProductForm.get('price')?.invalid && updateProductForm.get('price')?.touched" class="text-danger">
+                <small *ngIf="updateProductForm.get('price')?.errors?.['required']">Price is required.</small>
+                <small *ngIf="updateProductForm.get('price')?.errors?.['min']">Price cannot be negative.</small>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Quantity:</label>
+            <input type="number" class="form-control" formControlName="quantity" placeholder="Enter quantity" />
+            <div *ngIf="updateProductForm.get('quantity')?.invalid && updateProductForm.get('quantity')?.touched" class="text-danger">
+                <small *ngIf="updateProductForm.get('quantity')?.errors?.['required']">Quantity is required.</small>
+                <small *ngIf="updateProductForm.get('quantity')?.errors?.['min']">Quantity must be at least 1.</small>
+            </div>
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-success" [disabled]="updateProductForm.invalid">Update Product</button>
+        </div>
+    </form>
+</div>

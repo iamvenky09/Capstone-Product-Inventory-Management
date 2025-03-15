@@ -1,0 +1,13 @@
+.input-group {
+    max-width: 400px;
+    margin: auto;
+}
+
+.input-group-text {
+    background-color: #f8f9fa;
+    border-left: none;
+}
+
+.form-control {
+    border-right: none;
+}

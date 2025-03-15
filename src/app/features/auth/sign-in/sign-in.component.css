@@ -1,0 +1,22 @@
+/* Centering the Form */
+.container {
+    max-width: 400px;
+}
+
+/* Card Styling */
+.card {
+    border-radius: 12px;
+    background: #f8f9fa; /* Light gray */
+}
+
+/* Heading Styling */
+h2 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+}
+
+/* Button Styling */
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
