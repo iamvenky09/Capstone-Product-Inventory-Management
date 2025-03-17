@@ -5,7 +5,7 @@ import { AuthService } from './auth.service';
 describe('AuthService', () => {
   let service: AuthService;
   let httpTestingController: HttpTestingController;
-  const apiUrl = 'http://localhost:3000';
+  const apiUrl = 'http://localhost:3000/users';
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -18,15 +18,13 @@ describe('AuthService', () => {
   });
 
   afterEach(() => {
-    httpTestingController.verify(); // Ensure no outstanding HTTP requests
-    localStorage.clear(); // Clear localStorage between tests
+    httpTestingController.verify(); 
+    localStorage.clear(); 
   });
 
   describe('boundary', () => {
     it('should return true and set currentUser in localStorage on successful login', () => {
-      const mockUsers = [
-        { email: 'test@example.com', password: 'password123', name: 'Test User' }
-      ];
+      const mockUsers = [{ email: 'test@example.com', password: 'password123', name: 'Test User' }];
       const email = 'test@example.com';
       const password = 'password123';
 
@@ -36,7 +34,7 @@ describe('AuthService', () => {
         expect(currentUser).toEqual(mockUsers[0]);
       });
 
-      const req = httpTestingController.expectOne(`${apiUrl}/users`);
+      const req = httpTestingController.expectOne(apiUrl);
       expect(req.request.method).toBe('GET');
       req.flush(mockUsers);
     });
@@ -51,12 +49,12 @@ describe('AuthService', () => {
         expect(localStorage.getItem('currentUser')).toBeNull();
       });
 
-      const req = httpTestingController.expectOne(`${apiUrl}/users`);
+      const req = httpTestingController.expectOne(apiUrl);
       expect(req.request.method).toBe('GET');
       req.flush(mockUsers);
     });
 
-    it('should remove currentUser from localStorage', () => {
+    it('should remove currentUser from localStorage on logout', () => {
       localStorage.setItem('currentUser', JSON.stringify({ email: 'test@example.com' }));
 
       service.logout();
@@ -74,17 +72,47 @@ describe('AuthService', () => {
       expect(service.isLoggedIn()).toBe(false);
     });
 
-    it('should send a POST request to register a new user', () => {
+    it('should first send a GET request to check existing users, then a POST request to register a new user', () => {
       const newUser = { email: 'newuser@example.com', password: 'password123' };
+    
+      service.register(newUser).subscribe({
+        next: (response) => {
+          expect(response).toEqual(newUser);
+        },
+        error: () => fail('Expected success, but got an error')
+      });
+  
+      const getReq = httpTestingController.expectOne(`${apiUrl}/users`);
+      expect(getReq.request.method).toBe('GET');
+    
+      getReq.flush([]);
+    
+      const postReq = httpTestingController.expectOne(`${apiUrl}/users`);
+      expect(postReq.request.method).toBe('POST');
+      expect(postReq.request.body).toEqual(newUser);
+    
+      postReq.flush(newUser);
+    });
+    
 
-      service.register(newUser).subscribe((response) => {
-        expect(response).toEqual(newUser);
+    it('should not send a POST request if user already exists', () => {
+      const existingUser = { email: 'existing@example.com', password: 'password123' };
+      const newUser = { email: 'existing@example.com', password: 'password123' };
+
+      service.register(newUser).subscribe({
+        next: () => fail('Expected error, but got success'),
+        error: (err) => {
+          expect(err.message).toBe('Email already exists! Please use a different email.');
+        }
       });
 
-      const req = httpTestingController.expectOne(`${apiUrl}/users`);
-      expect(req.request.method).toBe('POST');
-      expect(req.request.body).toEqual(newUser);
-      req.flush(newUser);
+      const getReq = httpTestingController.expectOne(apiUrl);
+      expect(getReq.request.method).toBe('GET');
+
+      getReq.flush([existingUser]);
+
+
+      httpTestingController.expectNone(apiUrl);
     });
   });
 });

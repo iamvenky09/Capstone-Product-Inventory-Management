@@ -7,15 +7,21 @@ import { AuthService } from '../../../core/auth.service';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService) {}
 
   onRegister(form: any): void {
-    if (form.valid) {
-      this.authService.register(form.value).subscribe(() => {
-        alert('Registration successful!');
-      });
-    } else {
+    if (!form.valid) {
       alert('Please fill out all required fields.');
+      return;
     }
+
+    this.authService.register(form.value).subscribe({
+      next: () => {
+        alert('✅ Registration successful!');
+      },
+      error: (err) => {
+        alert(`⚠️ ${err.message}`);
+      }
+    });
   }
 }

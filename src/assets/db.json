@@ -26,6 +26,24 @@
       "location": "Hyderabad",
       "mobileNumber": "9876543210",
       "id": 3
+    },
+    {
+      "email": "ram123@gmail.com",
+      "password": "password678",
+      "firstName": "Ram",
+      "lastName": "Raju",
+      "location": "Hyderabad",
+      "mobileNumber": "9876543453",
+      "id": 4
+    },
+    {
+      "email": "john@example.com",
+      "password": "password123",
+      "firstName": "John",
+      "lastName": "Doe",
+      "location": "New York",
+      "mobileNumber": "1234567890",
+      "id": 5
     }
   ],
   "products": [
@@ -35,23 +53,15 @@
       "description": "Latest smartphone with 5G",
       "manufacturer": "Mobile Inc",
       "price": 8000,
-      "quantity": 25
+      "quantity": 15
     },
     {
+      "id": 1742020685769,
       "name": "Laptop",
       "description": "A high-performance laptop with a sleek design, powerful processor, and long-lasting battery for work and entertainment.",
       "manufacturer": "Microsoft",
       "price": 25000,
-      "quantity": 20,
-      "id": 1742020685769
-    },
-    {
-      "name": "Headset",
-      "description": "A Wireless Headset with bluetooth connectivity",
-      "manufacturer": "Realme",
-      "price": 1500,
-      "quantity": 13,
-      "id": 1742020712828
+      "quantity": 20
     }
   ]
 }
